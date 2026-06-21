@@ -34,16 +34,6 @@ class GSA_Activator {
             KEY fecha_click_idx (fecha_click)
         ) $charset_collate;";
 
-        // Tabla 3: Reglas Automáticas
-        $t_rules = $wpdb->prefix . 'gsa_rules';
-        $sql_rules = "CREATE TABLE $t_rules (
-            id INT AUTO_INCREMENT,
-            nombre VARCHAR(100) NOT NULL,
-            descripcion TEXT,
-            estado TINYINT(1) DEFAULT 0,
-            PRIMARY KEY  (id)
-        ) $charset_collate;";
-
         // Tabla 4: Ajustes Generales
         $t_settings = $wpdb->prefix . 'gsa_settings';
         $sql_settings = "CREATE TABLE $t_settings (
@@ -57,7 +47,6 @@ class GSA_Activator {
         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
         dbDelta($sql_socials);
         dbDelta($sql_clicks);
-        dbDelta($sql_rules);
         dbDelta($sql_settings);
     }
 }

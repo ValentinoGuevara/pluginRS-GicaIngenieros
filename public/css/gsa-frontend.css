@@ -1,50 +1,158 @@
+/* ============================================
+   GICA Social Analytics — Frontend Public
+   ============================================ */
+
+:root {
+    --gsa-azul-oscuro:   #1a3a6b;
+    --gsa-naranja:       #f47920;
+    --gsa-blanco:        #ffffff;
+    --gsa-sombra-base:   rgba(26, 58, 107, 0.25);
+    --gsa-sombra-hover:  rgba(26, 58, 107, 0.45);
+    --gsa-btn-size:      46px;
+    --gsa-btn-size-sm:   38px;
+    --gsa-gap:           3px;
+    --gsa-gap-sm:        6px;
+    --gsa-transition:    0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* CONTENEDOR FLOTANTE */
 .gsa-floating-wrapper {
     position: fixed;
-    bottom: 25px;
-    right: 25px;
+    bottom: 20px;
+    right: 6px;
     z-index: 999999;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: var(--gsa-gap);
+    align-items: center;
 }
 
+/* BOTÓN BASE */
 .gsa-btn {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 50px;
-    height: 50px;
+    width: var(--gsa-btn-size);
+    height: var(--gsa-btn-size);
     border-radius: 50%;
-    color: #ffffff !important;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    color: var(--gsa-blanco) !important;
     text-decoration: none;
-    transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.25s ease;
+    box-shadow: 0 3px 10px var(--gsa-sombra-base);
+    transition: transform var(--gsa-transition), box-shadow var(--gsa-transition);
+    position: relative;
+    outline: 3px solid transparent;
+    outline-offset: 2px;
 }
 
+/* FOCUS */
+.gsa-btn:focus-visible {
+    outline-color: var(--gsa-naranja);
+}
+
+/* HOVER */
 .gsa-btn:hover {
     transform: scale(1.15) translateY(-2px);
-    box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+    box-shadow: 0 6px 18px var(--gsa-sombra-hover);
 }
 
-.gsa-btn .dashicons {
-    font-size: 24px;
-    width: 24px;
-    height: 24px;
+/* TOOLTIP */
+.gsa-btn::before {
+    content: attr(data-tooltip);
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--gsa-azul-oscuro);
+    color: var(--gsa-blanco);
+    font-size: 11px;
+    font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    padding: 4px 9px;
+    border-radius: 4px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+    border-left: 3px solid var(--gsa-naranja);
 }
 
+.gsa-btn:hover::before {
+    opacity: 1;
+}
+
+/* ÍCONO */
+.gsa-btn i {
+    font-size: 18px;
+    line-height: 1;
+    color: var(--gsa-blanco);
+}
+
+/* ANIMACIÓN DE ENTRADA ESCALONADA */
+.gsa-btn {
+    animation: gsaEntrada 0.35s ease both;
+}
+
+.gsa-btn:nth-child(1) { animation-delay: 0.05s; }
+.gsa-btn:nth-child(2) { animation-delay: 0.10s; }
+.gsa-btn:nth-child(3) { animation-delay: 0.15s; }
+.gsa-btn:nth-child(4) { animation-delay: 0.20s; }
+.gsa-btn:nth-child(5) { animation-delay: 0.25s; }
+.gsa-btn:nth-child(6) { animation-delay: 0.30s; }
+
+@keyframes gsaEntrada {
+    from {
+        opacity: 0;
+        transform: translateX(16px) scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+}
+
+/* RESPONSIVE MÓVIL */
 @media (max-width: 768px) {
     .gsa-floating-wrapper {
-        bottom: 15px;
-        right: 15px;
-        gap: 10px;
+        bottom: 14px;
+        right: 10px;
+        gap: var(--gsa-gap-sm);
     }
+
     .gsa-btn {
-        width: 44px;
-        height: 44px;
+        width: var(--gsa-btn-size-sm);
+        height: var(--gsa-btn-size-sm);
     }
-    .gsa-btn .dashicons {
-        font-size: 20px;
-        width: 20px;
-        height: 20px;
+
+    .gsa-btn i {
+        font-size: 16px;
+    }
+
+    .gsa-btn::before {
+        display: none;
+    }
+}
+
+/* MOVIMIENTO REDUCIDO */
+@media (prefers-reduced-motion: reduce) {
+    .gsa-btn {
+        animation: none;
+        transition: none;
+    }
+}
+
+/* MODO OSCURO */
+@media (prefers-color-scheme: dark) {
+    .gsa-btn::before {
+        background: #1a3a6b;
+        color: #ffffff;
+        border-left-color: #f47920;
+    }
+
+    .gsa-btn {
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
+    }
+
+    .gsa-btn:hover {
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
     }
 }
